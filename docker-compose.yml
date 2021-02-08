@@ -1,0 +1,21 @@
+version: "3"
+services: # defining which containers will be built.
+   web: # web container.
+      build: # needs some extra parameters as the Dockerfile does not follow the standard.
+         context: . # specifies the project's directory; the one that has the project's files.
+         dockerfile: Dockerfile.dev # indicates which Dockerfile will be used. 
+      ports:
+         - "3000:3000" # mapping port 3000 from physical host to container.
+      volumes:
+         - /app/node_modules # does not match the "node_modules" dir.
+         - .:/app # matches everything from local dir to the container.
+   tests:
+      build: 
+         context: .
+         dockerfile: Dockerfile.dev
+      volumes:
+         - /app/node_modules
+         - .:/app
+      command: ["npm", "run", "test"] # overwrites the default start up command defined in Dockerfile.dev.
+
+
