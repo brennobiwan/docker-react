@@ -17,4 +17,3 @@ script:
    # PS: it is needed because Travis CI requires an exit code, so the test needs to finish; 
    # the test suite prompts for an input to keep testing, by default.
    - docker run -e CI=true brennobiwan/docker-react npm run test -- --coverage
-
