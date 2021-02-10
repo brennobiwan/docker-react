@@ -18,6 +18,8 @@ before_install:
    # the test suite prompts for an input to keep testing, by default.
    #- docker run -e CI=true brennobiwan/docker-react npm run test -- --coverage
 
+language: generic
+
 # this section tells Travis how to deploy our container on AWS Beanstalk. 
 deploy: 
    # Travis CI comes pre-configured to deploy the app on some providers.
