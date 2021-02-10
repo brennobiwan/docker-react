@@ -24,14 +24,13 @@ script:
 
 # this section tells Travis how to deploy our container on AWS Beanstalk. 
 deploy: 
-   edge: true
    # Travis CI comes pre-configured to deploy the app on some providers.
    provider: elasticbeanstalk
    # defines the region in which our elastic beanstalk instance was created;
    # PS: this can be seen from the Elastic Beanstalk instance URL.
    region: "us-east-1"
    # name of the application.
-   #name: "docker-react"
+   app: "docker-react"
    # name of the environment; it is the app's name dash "env".
    env: "Dockerreact-env"
    # name of the s3 bucket into which Travis will store all our GitHub files.
@@ -40,7 +39,7 @@ deploy:
    # PS: the s3 bucket is automatically created along with the Elastic Beanstalk instance.
    bucket_name: "elasticbeanstalk-us-east-1-743760466716"
    # path to the app you're building inside s3; needed because the bucket is re-used by your other instances.
-   bucket_path: "docker-react"
+   # bucket_path: "docker-react"
    # triggers the deployment section of Travis only when the master branch is updated.
    on:
       branch: master
