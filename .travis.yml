@@ -45,7 +45,8 @@ deploy:
    on:
       branch: master
    # using secret environment for security purposes; the actual keys are stored in travis-ci.com
-   access_key_id: $AWS_ACCESS_KEY
+   access_key_id:
+      secure: $AWS_ACCESS_KEY
    secret_access_key: 
       secure: $AWS_SECRET_KEY
 
