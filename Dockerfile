@@ -25,6 +25,9 @@ RUN npm run build
 # base image
 FROM nginx
 
+# expose a port for Elastic Beanstalk.
+EXPOSE 80
+
 # copy, from the phase named "builder", only the /app/build directory into the nginx container.
 # PS: /usr/share/nginx/html is the default dir from which static files are served by NGINX.
 COPY --from=builder /app/build /usr/share/nginx/html
