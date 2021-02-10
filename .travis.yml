@@ -22,6 +22,7 @@ language: generic
 
 # this section tells Travis how to deploy our container on AWS Beanstalk. 
 deploy: 
+   edge: true
    # Travis CI comes pre-configured to deploy the app on some providers.
    provider: elasticbeanstalk
    # defines the region in which our elastic beanstalk instance was created;
