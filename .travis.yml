@@ -1,3 +1,5 @@
+language: generic
+
 # docker requires superuser permissions
 sudo: required
 
@@ -9,20 +11,20 @@ services:
 before_install:
    # tells Travis CI to build the image using the "Dockerfile.dev" file.
    # PS: it is best practice to tag (-t) the image. 
-   - docker build -t brennobiwan/docker-react .
+   - docker build -t brennobiwan/docker-react -f Dockerfile.dev .
 
 # this is where we run some scripts to actually execute the tests.
-#script:
+script:
    # the "-- --coverage" enforces the test suite to exit after it is done.
    # PS: it is needed because Travis CI requires an exit code, so the test needs to finish; 
    # the test suite prompts for an input to keep testing, by default.
-   #- docker run -e CI=true brennobiwan/docker-react npm run test -- --coverage
+   - docker run -e CI=true brennobiwan/docker-react npm run test -- --coverage
 
-#language: generic
+
 
 # this section tells Travis how to deploy our container on AWS Beanstalk. 
 deploy: 
-#edge: true
+   edge: true
    # Travis CI comes pre-configured to deploy the app on some providers.
    provider: elasticbeanstalk
    # defines the region in which our elastic beanstalk instance was created;
