@@ -1,10 +1,9 @@
-sudo: required # any time we're using Docker, we need sudo permissions
+sudo: required 
 services:
-  - docker # Travis CI will install a copy of Docker for our workload
+  - docker 
 
-before_install: # this will be done before deploying our code or runing our tests
-  - docker build -t brennobiwan/docker-react -f Dockerfile.dev . # command to run in order to build the Docker image
+before_install: 
+  - docker build -t brennobiwan/docker-react -f Dockerfile.dev . 
 
-script: # this will contain the code that will run our test suite; Travis CI watches the output of each command and expects the returning ode to be 0, otherwise it considers the test a failure
-  - docker run -e CI=true brennobiwan/docker-react npm run test -- --coverage  # this is for "npm run test" to exit automatically once the test finishes
-  # Travis assumes that the test suite exits automatically. As "npm run test" doesn't by default -- it waits for an input from the user --, Travis will be hanging waiting for a code to return
+script: 
+  - docker run -e CI=true brennobiwan/docker-react npm run test 
