@@ -1,9 +1,22 @@
-sudo: required 
+sudo: required # any time we're using Docker, we need sudo permissions
 services:
-  - docker 
+  - docker # Travis CI will install a copy of Docker for our workload
 
-before_install: 
-  - docker build -t brennobiwan/docker-react -f Dockerfile.dev . 
+before_install: # this will be done before deploying our code or runing our tests
+  - docker build -t brennobiwan/docker-react -f Dockerfile.dev . # command to run in order to build the Docker image
 
-script: 
-  - docker run -e CI=true brennobiwan/docker-react npm run test 
+script: # this will contain the code that will run our test suite; Travis CI watches the output of each command and expects the returning ode to be 0, otherwise it considers the test a failure
+  - docker run -e CI=true brennobiwan/docker-react npm run test -- --coverage  # this is for "npm run test" to exit automatically once the test finishes
+  # Travis assumes that the test suite exits automatically. As "npm run test" doesn't by default -- it waits for an input from the user --, Travis will be hanging waiting for a code to return
+
+deploy: 
+  provider: elasticbeanstalk 
+  region: "us-east-1"
+  app: "docker" # name of the Application within Elastic Beanstalk
+  env: "Docker-env" # name of the environment within Elastic Beanstalk
+  bucket_name: "s3_bucket_name" # Travis CI decides to deploy your code base, it'll zip everything into a single file and then copy it to an S3 bucket; Travis will then pokes Elastic Beanstalk to let it know that the ZIP file has been uploaded -- it is what Beanstalk uses to deploy the app. The bucket is automatically created by Beanstalk; this bucket gets reused for all Elastic Beanstalk environments that are created
+  bucket_path: "docker" # this is the bucket prefix for the app; it is the same as the app name. It is created at the first deployment
+  on:
+    branch: master # only triggers the "deploy" part if the code change is made to the master branch
+  access_key_id: $AWS_ACCESS_KEY # user/role's access key added to Travis CI as an environment variable so as to not be hard-coded in the configuration
+  secret_access_key: "$AWS_SECRET_KEY" # user/role's secret access key added to Travis CI as an environment variable so as to not be hard-coded in the configuration
